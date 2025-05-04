@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="flex items-center gap-2 text-xs">
         <img
           className="w-96 sm:w-40 cursor-pointer"
-          src={assets.admin_logo}
+          src={assets.website_logo}
           alt=""
         />
         <p className="border px-2.5 py-0.5 rounded-full border-gray-600 text-gray-600">

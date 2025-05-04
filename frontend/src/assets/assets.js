@@ -25,7 +25,7 @@ import contact_image from "./contact_image.png";
 import menu_icon from "./menu_icon.svg";
 import cross_icon from "./cross_icon.png";
 import upload_icon from "./upload_icon.png";
-
+import website_logo from "./website_logo.png";
 import Dermatologist from "./Dermatologist.svg";
 import Gastroenterologist from "./Gastroenterologist.svg";
 import General_physician from "./General_physician.svg";
@@ -34,6 +34,7 @@ import Neurologist from "./Neurologist.svg";
 import Pediatricians from "./Pediatricians.svg";
 
 export const assets = {
+  website_logo,
   logo,
   profile_pic,
   dropdown_icon,

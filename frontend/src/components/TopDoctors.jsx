@@ -39,7 +39,8 @@ const TopDoctors = () => {
                 <p>{item.available ? "Available" : "Not Available"}</p>
               </div>
               <p className="text-gray-900 text-lg font-medium ">{item.name}</p>
-              <p className="text-gray-600 text-sm">{item.speciality}</p>
+              <p className="text-violet-600 text-sm">{item.speciality}</p>
+              <p className="text-gray-600 text-sm">{item.address.line2}</p> 
             </div>
           </div>
         ))}
