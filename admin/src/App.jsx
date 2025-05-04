@@ -9,13 +9,13 @@ import Sidebar from "./components/Sidebar";
 import { Route, Routes } from "react-router-dom";
 import DashBoard from "./pages/admin/Dashboard";
 
-import AllAppointments from "./pages/Admin/AllAppointments";
-import AddDoctor from "./pages/Admin/AddDoctor";
-import DoctorsList from "./pages/Admin/DoctorsList";
+import AllAppointments from "./pages/admin/AllAppointments";
+import AddDoctor from "./pages/admin/AddDoctor";
+import DoctorsList from "./pages/admin/DoctorsList"
 import { DoctorContext } from "./context/DontorContext";
-import DoctorDashboard from "./pages/Doctor/DoctorDashboard";
-import DoctorAppointmets from "./pages/Doctor/DoctorAppointments";
-import DoctorProfile from "./pages/Doctor/DoctorProfile";
+import DoctorDashboard from "./pages/doctor/DoctorDashboard";
+import DoctorAppointmets from "./pages/doctor/DoctorAppointments";
+import DoctorProfile from "./pages/doctor/DoctorProfile";
 import TopLoadingBar from "./components/TopLoadingBar";
 const App = () => {
   const { aToken } = useContext(AdminContext);
