@@ -8,18 +8,46 @@ const AppContextProvider = (props) => {
   const currencySymbol = "₹";
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [isLoading, setIsLoading] = useState(false);
-  console.log("isLoading:", isLoading);
   const [doctors, setDoctors] = useState([]);
   const [token, setToken] = useState(
     localStorage.getItem("token") ? localStorage.getItem("token") : ""
   );
   const [userData, setUserData] = useState(false);
+
+  // Mapping specialities to keywords
+  const specialityKeywords = {
+    "General physician": [
+      "cough", "cold", "fever", "viral infection", "infection", "flu", "headache"
+    ],
+    Gynecologist: [
+      "pregnancy", "menstruation", "fertility", "reproductive health", "periods", "gynecology"
+    ],
+    Dermatologist: [
+      "acne", "eczema", "psoriasis", "skin rash", "itching", "skin infection"
+    ],
+    Pediatricians: [
+      "child", "infant", "vaccination", "fever", "cough", "baby care"
+    ],
+    Neurologist: [
+      "brain", "nerves", "spine", "seizures", "paralysis", "stroke", "headache"
+    ],
+    Gastroenterologist: [
+      "stomach", "digestion", "liver", "ulcer", "gas", "bloating", "abdomen pain"
+    ]
+  };
+
   const getDoctorsData = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/doctor/list");
 
       if (data.success) {
-        setDoctors(data.doctors);
+        // Add keywords to each doctor based on their speciality
+        const enrichedDoctors = data.doctors.map((doc) => ({
+          ...doc,
+          keywords: specialityKeywords[doc.speciality] || []
+        }));
+
+        setDoctors(enrichedDoctors);
       }
     } catch (error) {
       console.log("error:", error);
@@ -43,6 +71,7 @@ const AppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
+
   useEffect(() => {
     getDoctorsData();
   }, []);
@@ -56,28 +85,23 @@ const AppContextProvider = (props) => {
   }, [token]);
 
   useEffect(() => {
-    // request intercepter
-    console.log("inter");
     axios.interceptors.request.use(
       (config) => {
         setIsLoading(true);
         return config;
       },
-      (error) => {
-        return Promise.reject(error);
-      }
+      (error) => Promise.reject(error)
     );
-    //response intercepter
+
     axios.interceptors.response.use(
       (config) => {
         setIsLoading(false);
         return config;
       },
-      (error) => {
-        return Promise.reject(error);
-      }
+      (error) => Promise.reject(error)
     );
   }, []);
+
   const value = {
     doctors,
     getDoctorsData,
@@ -91,6 +115,7 @@ const AppContextProvider = (props) => {
     isLoading,
     setIsLoading,
   };
+
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
   );

@@ -52,12 +52,12 @@ const Appointment = () => {
     const generateSlotDate = (date) =>
       `${date.getDate()}_${date.getMonth() + 1}_${date.getFullYear()}`;
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 8; i++) {
       const currentDate = new Date(today);
       currentDate.setDate(today.getDate() + i);
 
       const endTime = new Date(currentDate);
-      endTime.setHours(16, 0, 0, 0);
+      endTime.setHours(15, 0, 0, 0);
 
       // Set the start time
       if (i === 0) {
@@ -89,7 +89,7 @@ const Appointment = () => {
           });
         }
 
-        currentDate.setMinutes(currentDate.getMinutes() + 10);
+        currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
 
       // If no available slots, add a placeholder
@@ -181,17 +181,6 @@ const Appointment = () => {
                 {docInfo.fees}
               </span>{" "}
             </p>
-
-
-            <p className="text-gray-500 font-medium mt-4">
-              Address:{" "}
-              <p className="text-sm text-gray-500 max-w-[700px] mt-1">
-                {docInfo.address.line1}
-              </p>
-              <p className="text-sm text-gray-500 max-w-[700px] mt-1">
-                {docInfo.address.line2}
-              </p>
-            </p>
           </div>
         </div>
 
@@ -204,10 +193,11 @@ const Appointment = () => {
               docSlots.map((item, index) => (
                 <div
                   onClick={() => setSlotIndex(index)}
-                  className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index
+                  className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
+                    slotIndex === index
                       ? "bg-primary text-white"
                       : "border border-gray-200"
-                    }`}
+                  }`}
                   key={index}
                 >
                   <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
