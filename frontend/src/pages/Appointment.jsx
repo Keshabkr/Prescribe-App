@@ -89,7 +89,7 @@ const Appointment = () => {
           });
         }
 
-        currentDate.setMinutes(currentDate.getMinutes() + 30);
+        currentDate.setMinutes(currentDate.getMinutes() + 10);
       }
 
       // If no available slots, add a placeholder
