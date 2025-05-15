@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import MoveUpOnRender from "../components/MoveUpOnRender";
@@ -41,7 +41,7 @@ const specialityDiseases = {
 
 const Doctors = () => {
   const { speciality } = useParams();
-  const { doctors } = useContext(AppContext);
+  const { doctors, doctorRatings } = useContext(AppContext);
   const [filterDoc, setFilterDoc] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,6 +66,30 @@ const Doctors = () => {
         );
 
         return nameMatch || specialityMatch || diseaseMatch;
+      });
+
+      // Sort doctors based on relevance and rating
+      filtered.sort((a, b) => {
+        // First, check if the search term is a disease
+        const aDiseases = specialityDiseases[a.speciality] || [];
+        const bDiseases = specialityDiseases[b.speciality] || [];
+        
+        const aDiseaseMatch = aDiseases.some(disease => 
+          disease.toLowerCase().includes(term)
+        );
+        const bDiseaseMatch = bDiseases.some(disease => 
+          disease.toLowerCase().includes(term)
+        );
+
+        // If one matches disease and other doesn't, prioritize the one that matches
+        if (aDiseaseMatch && !bDiseaseMatch) return -1;
+        if (!aDiseaseMatch && bDiseaseMatch) return 1;
+
+        // If both match or don't match disease, sort by rating
+        const aRating = parseFloat(doctorRatings[a._id]?.rating || 0);
+        const bRating = parseFloat(doctorRatings[b._id]?.rating || 0);
+        
+        return bRating - aRating;
       });
     }
 
@@ -141,6 +165,11 @@ const Doctors = () => {
                       <p className="text-gray-900 text-lg font-medium">{item.name}</p>
                       <p className="text-violet-600 text-sm">{item.speciality}</p>
                       <p className="text-gray-600 text-sm">{item.address.line2}</p>
+                      {/* Rating Display */}
+                      <div className="flex items-center gap-1 mt-2">
+                        <span className="text-yellow-500">★</span>
+                        <span className="text-sm font-medium">{doctorRatings[item._id]?.rating}</span>
+                      </div>
                     </div>
                   </div>
                 ))

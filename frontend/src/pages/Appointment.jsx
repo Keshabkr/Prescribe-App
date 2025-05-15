@@ -9,7 +9,7 @@ import SlotSelector from "../components/SlotSelector";
 
 const Appointment = () => {
   const { docId } = useParams();
-  const { doctors, currencySymbol, token, backendUrl, getDoctorsData } =
+  const { doctors, currencySymbol, token, backendUrl, getDoctorsData, doctorRatings } =
     useContext(AppContext);
   const daysOfWeek = ["SUN", "MON", "TUE", "WEND", "THE", "FRI", "SAT"];
 
@@ -174,6 +174,17 @@ const Appointment = () => {
                 {docInfo.about}
               </p>
             </div>
+
+            <div className="mt-4">
+              <p className="flex items-center gap-1 text-sm font-medium text-gray-900">
+                Address <img src={assets.info_icon} alt="" />
+              </p>
+              <div className="text-sm text-gray-500 mt-1">
+                <p>{docInfo.address.line1}</p>
+                <p>{docInfo.address.line2}</p>
+              </div>
+            </div>
+
             <p className="text-gray-500 font-medium mt-4">
               Appointment fee:{" "}
               <span className="text-gray-600">
@@ -181,6 +192,18 @@ const Appointment = () => {
                 {docInfo.fees}
               </span>{" "}
             </p>
+
+            {/* ------------- Doctor Rating */}
+            <div className="mt-4">
+              <p className="flex items-center gap-1 text-sm font-medium text-gray-900">
+                Rating <img src={assets.info_icon} alt="" />
+              </p>
+              <div className="flex items-center gap-1 mt-1">
+                <span className="text-yellow-500">★</span>
+                <span className="text-sm font-medium">{doctorRatings[docId]?.rating}</span>
+              </div>
+            </div>
+
           </div>
         </div>
 

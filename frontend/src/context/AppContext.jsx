@@ -13,6 +13,7 @@ const AppContextProvider = (props) => {
     localStorage.getItem("token") ? localStorage.getItem("token") : ""
   );
   const [userData, setUserData] = useState(false);
+  const [doctorRatings, setDoctorRatings] = useState({});
 
   // Mapping specialities to keywords
   const specialityKeywords = {
@@ -72,6 +73,24 @@ const AppContextProvider = (props) => {
     }
   };
 
+  // Function to generate random rating and review count
+  const generateRandomRating = () => {
+    const rating = (Math.random() * (5 - 3.5) + 3.5).toFixed(1);
+    const reviewCount = Math.floor(Math.random() * (200 - 50) + 50);
+    return { rating, reviewCount };
+  };
+
+  // Generate ratings when doctors data is loaded
+  useEffect(() => {
+    if (doctors.length > 0) {
+      const ratings = {};
+      doctors.forEach(doc => {
+        ratings[doc._id] = generateRandomRating();
+      });
+      setDoctorRatings(ratings);
+    }
+  }, [doctors]);
+
   useEffect(() => {
     getDoctorsData();
   }, []);
@@ -114,6 +133,7 @@ const AppContextProvider = (props) => {
     loadUserProfileData,
     isLoading,
     setIsLoading,
+    doctorRatings,
   };
 
   return (
